@@ -64,7 +64,11 @@ class Game_Map
     end
     @common_events        = {}
     for i in 1...$data_common_events.size
-      @common_events[i]   = Game_CommonEvent.new(i)
+      common_event = Game_CommonEvent.new(i)
+      #only add an event to the class variable if it is active
+      if common_event.interpreter != nil
+        @common_events[i] = common_event
+      end
     end
     @scroll_direction     = 2
     @scroll_rest          = 0
