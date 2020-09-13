@@ -135,7 +135,7 @@ class PokeBattle_Battle
   # things happening (U-turn, Baton Pass, in def pbSwitch).
   def pbSwitchInBetween(idxBattler,checkLaxOnly=false,canCancel=false)
     return pbPartyScreen(idxBattler,checkLaxOnly,canCancel) if pbOwnedByPlayer?(idxBattler)
-    return @battleAI.pbDefaultChooseNewEnemy(idxBattler,pbParty(idxBattler))
+    return pbDefaultChooseNewEnemy(idxBattler,pbParty(idxBattler))
   end
 
   #=============================================================================
@@ -292,6 +292,8 @@ class PokeBattle_Battle
   # Called from def pbReplace above and at the start of battle.
   # sendOuts is an array; each element is itself an array: [idxBattler,pkmn]
   def pbSendOut(sendOuts,startBattle=false)
+    @aiMoveMemory[0].clear
+    @aiMoveMemory[1].clear if !opposes?(sendOuts) rescue true
     sendOuts.each { |b| @peer.pbOnEnteringBattle(self,b[1]) }
     @scene.pbSendOutBattlers(sendOuts,startBattle)
     sendOuts.each do |b|

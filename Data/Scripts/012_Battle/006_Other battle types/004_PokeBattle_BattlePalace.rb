@@ -60,7 +60,6 @@ class PokeBattle_BattlePalace < PokeBattle_Battle
   def initialize(*arg)
     super
     @justswitched          = [false,false,false,false]
-    @battleAI.battlePalace = true
   end
 
   def pbMoveCategory(move)
@@ -152,7 +151,7 @@ class PokeBattle_BattlePalace < PokeBattle_Battle
   def pbAutoFightMenu(idxBattler)
     thispkmn = @battlers[idxBattler]
     nature = thispkmn.nature
-    randnum = @battleAI.pbAIRandom(100)
+    randnum = pbAIRandom(100)
     category = 0
     atkpercent = 0
     defpercent = 0
@@ -180,7 +179,7 @@ class PokeBattle_BattlePalace < PokeBattle_Battle
       # No moves of selected category
       pbRegisterMove(idxBattler,-2)
     else
-      chosenmove = moves[@battleAI.pbAIRandom(moves.length)]
+      chosenmove = moves[pbAIRandom(moves.length)]
       pbRegisterMove(idxBattler,chosenmove)
     end
     return true
@@ -200,76 +199,3 @@ end
 #===============================================================================
 #
 #===============================================================================
-class PokeBattle_AI
-  attr_accessor :battlePalace
-
-  alias _battlePalace_initialize initialize
-
-  def initialize(*arg)
-    _battlePalace_initialize(*arg)
-    @justswitched = [false,false,false,false]
-  end
-
-  alias _battlePalace_pbEnemyShouldWithdraw? pbEnemyShouldWithdraw?
-
-  def pbEnemyShouldWithdraw?(idxBattler)
-    return _battlePalace_pbEnemyShouldWithdraw?(idxBattler) if !@battlePalace
-    thispkmn = @battle.battlers[idxBattler]
-    shouldswitch = false
-    if thispkmn.effects[PBEffects::PerishSong]==1
-      shouldswitch = true
-    elsif !@battle.pbCanChooseAnyMove?(idxBattler) &&
-       thispkmn.turnCount && thispkmn.turnCount>5
-      shouldswitch = true
-    else
-      hppercent = thispkmn.hp*100/thispkmn.totalhp
-      percents = []
-      maxindex = -1
-      maxpercent = 0
-      factor = 0
-      @battle.pbParty(idxBattler).each_with_index do |pkmn,i|
-        if @battle.pbCanSwitch?(idxBattler,i)
-          percents[i] = 100*pkmn.hp/pkmn.totalhp
-          if percents[i]>maxpercent
-            maxindex = i
-            maxpercent = percents[i]
-          end
-        else
-          percents[i] = 0
-        end
-      end
-      if hppercent<50
-        factor = (maxpercent<hppercent) ? 20 : 40
-      end
-      if hppercent<25
-        factor = (maxpercent<hppercent) ? 30 : 50
-      end
-      case thispkmn.status
-      when PBStatuses::SLEEP, PBStatuses::FROZEN
-        factor += 20
-      when PBStatuses::POISON, PBStatuses::BURN
-        factor += 10
-      when PBStatuses::PARALYSIS
-        factor += 15
-      end
-      if @justswitched[idxBattler]
-        factor -= 60
-        factor = 0 if factor<0
-      end
-      shouldswitch = (pbAIRandom(100)<factor)
-      if shouldswitch && maxindex>=0
-        @battle.pbRegisterSwitch(idxBattler,maxindex)
-        return true
-      end
-    end
-    @justswitched[idxBattler] = shouldswitch
-    if shouldswitch
-      @battle.pbParty(idxBattler).each_with_index do |_pkmn,i|
-        next if !@battle.pbCanSwitch?(idxBattler,i)
-        @battle.pbRegisterSwitch(idxBattler,i)
-        return true
-      end
-    end
-    return false
-  end
-end

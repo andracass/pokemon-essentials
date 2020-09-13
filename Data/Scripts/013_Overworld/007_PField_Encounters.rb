@@ -462,6 +462,6 @@ def pbEncounter(enctype)
   else
     pbWildBattle(encounter1[0],encounter1[1])
   end
-	$PokemonTemp.encounterType = -1
+  $PokemonTemp.encounterType = -1
   return true
 end

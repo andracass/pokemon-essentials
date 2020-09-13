@@ -140,7 +140,7 @@ class PokeBattle_Battle
   def pbPartyMenu(idxBattler)
     ret = -1
     if @debug
-      ret = @battleAI.pbDefaultChooseNewEnemy(idxBattler,pbParty(idxBattler))
+      ret = pbDefaultChooseNewEnemy(idxBattler,pbParty(idxBattler))
     else
       ret = pbPartyScreen(idxBattler,false,true,true)
     end
@@ -197,7 +197,7 @@ class PokeBattle_Battle
       next if !pbCanShowCommands?(idxBattler)   # Action is forced, can't choose one
       # AI controls this battler
       if @controlPlayer || !pbOwnedByPlayer?(idxBattler)
-        @battleAI.pbDefaultChooseEnemyCommand(idxBattler)
+        pbDefaultChooseEnemyCommand(idxBattler)
         next
       end
       # Player chooses an action

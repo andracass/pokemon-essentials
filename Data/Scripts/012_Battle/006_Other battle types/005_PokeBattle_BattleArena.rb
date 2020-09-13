@@ -10,7 +10,6 @@ class PokeBattle_BattleArena < PokeBattle_Battle
     @starthp              = [0,0]
     @count                = 0
     @partyindexes         = [0,0]
-    @battleAI.battleArena = true
   end
 
   def pbCanSwitchLax?(idxBattler,_idxParty,partyScene=nil)
@@ -161,22 +160,6 @@ class PokeBattle_BattleArena < PokeBattle_Battle
       pbGainExp
       pbEORSwitch
     end
-  end
-end
-
-
-
-#===============================================================================
-#
-#===============================================================================
-class PokeBattle_AI
-  attr_accessor :battleArena
-
-  alias _battleArena_pbEnemyShouldWithdraw? pbEnemyShouldWithdraw?
-
-  def pbEnemyShouldWithdraw?(idxBattler)
-    return _battleArena_pbEnemyShouldWithdraw?(idxBattler) if !@battleArena
-    return false
   end
 end
 

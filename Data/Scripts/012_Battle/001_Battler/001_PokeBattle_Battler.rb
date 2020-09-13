@@ -605,6 +605,10 @@ class PokeBattle_Battler
     return (@index&1)!=(i&1)
   end
 
+  def pbOppositeOpposing
+    return @battle.battlers[(@index^1)]
+  end
+
   # Returns whether the given position/battler is near to self.
   def near?(i)
     i = i.index if i.respond_to?("index")

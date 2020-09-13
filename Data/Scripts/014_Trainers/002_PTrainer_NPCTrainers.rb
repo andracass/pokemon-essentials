@@ -244,7 +244,7 @@ def pbMissingTrainer(trainerid, trainername, trainerparty)
   if !$DEBUG
     raise _INTL("Can't find trainer ({1}, {2}, ID {3})",traineridstring,trainername,trainerparty)
   end
-	message = ""
+  message = ""
   if trainerparty!=0
     message = (_INTL("Add new trainer ({1}, {2}, ID {3})?",traineridstring,trainername,trainerparty))
   else

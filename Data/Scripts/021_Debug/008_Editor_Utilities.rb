@@ -161,7 +161,7 @@ module MakeshiftConsts
       trconst = "T_"+trconst
     end
     while @@consts[c].include?(trconst)
- 	   trconst = sprintf("%s_%03d",trconst,i)
+      trconst = sprintf("%s_%03d",trconst,i)
     end
     @@consts[c][i] = trconst
     return trconst

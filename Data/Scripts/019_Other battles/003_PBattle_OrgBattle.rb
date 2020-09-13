@@ -853,8 +853,8 @@ def pbBattleFactoryPokemon(rule,numwins,numswaps,_rentals)
       if (table[i*4+1]<0 || table[i*4+1]>=numwins)
         pokemonNumbers=[
            table[i*4+2]*btpokemon.length/882,
-	         table[i*4+3]*btpokemon.length/882
-	      ]
+           table[i*4+3]*btpokemon.length/882
+        ]
       end
     end
   end

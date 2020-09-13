@@ -83,6 +83,7 @@ class PokeBattle_Battle
   attr_reader   :endOfRound       # True during the end of round
   attr_accessor :moldBreaker      # True if Mold Breaker applies
   attr_reader   :struggle         # The Struggle move
+  attr_accessor :aiMoveMemory
 
   include PokeBattle_BattleCommon
 
@@ -99,7 +100,6 @@ class PokeBattle_Battle
     end
     @scene             = scene
     @peer              = PokeBattle_BattlePeer.create
-    @battleAI          = PokeBattle_AI.new(self)
     @field             = PokeBattle_ActiveField.new    # Whole field (gravity/rooms)
     @sides             = [PokeBattle_ActiveSide.new,   # Player's side
                           PokeBattle_ActiveSide.new]   # Foe's side
@@ -109,6 +109,7 @@ class PokeBattle_Battle
     @backdrop          = ""
     @backdropBase      = nil
     @time              = 0
+    @aiMoveMemory    = [[],[],[[],[],[],[],[],[],[],[],[],[],[],[]]]
     @environment       = PBEnvironment::None   # e.g. Tall grass, cave, still water
     @turnCount         = 0
     @decision          = 0
@@ -237,6 +238,22 @@ class PokeBattle_Battle
       ret = i
     end
     return ret
+  end
+
+  def pbGetOwner(battlerIndex)
+    if opposes?(battlerIndex)
+      if @opponent.is_a?(Array)
+        return (battlerIndex==1) ? @opponent[0] : @opponent[1]
+      else
+        return @opponent
+      end
+    else
+      if @player.is_a?(Array)
+        return (battlerIndex==0) ? @player[0] : @player[1]
+      else
+        return @player
+      end
+    end
   end
 
   # Only used for the purpose of an error message when one trainer tries to

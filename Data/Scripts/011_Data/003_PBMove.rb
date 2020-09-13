@@ -67,6 +67,10 @@ class PBMove
     @pp = [@pp, totalpp].min if old_id > 0
   end
 
+  def basedamage
+    return pbGetMoveData(@id, MOVE_BASE_DAMAGE) || 0
+  end
+
   # Gets this move's type.
   def type
     return pbGetMoveData(@id, MOVE_TYPE) || 0

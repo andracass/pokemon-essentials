@@ -878,18 +878,16 @@ end
 
 def pbAddScript(script,sectionname)
   begin
-    scripts = load_data("Data/Constants.rxdata")
+    scripts = load_data("Data/Scripts.rxdata")
     scripts = [] if !scripts
   rescue
     scripts = []
   end
-  if false   # s
-    s = pbFindScript(scripts,sectionname)
-    s[2]+=Zlib::Deflate.deflate("#{script}\r\n")
-  else
-    scripts.push([rand(100000000),sectionname,Zlib::Deflate.deflate("#{script}\r\n")])
+  s=pbFindScript(scripts,sectionname)
+  if s
+    s[2]=Zlib::Deflate.deflate("#{script}\n")
   end
-  save_data(scripts,"Data/Constants.rxdata")
+  save_data(scripts,"Data/Scripts.rxdata")
 end
 
 

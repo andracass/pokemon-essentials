@@ -112,7 +112,13 @@ def pbDebugF7
   end
 end
 
-
+def pbTurbo()  
+  if Graphics.frame_rate==40
+    Graphics.frame_rate=200
+  else
+    Graphics.frame_rate=40
+  end
+end
 
 module Input
   unless defined?(update_KGC_ScreenCapture)
@@ -128,6 +134,9 @@ module Input
     end
     if trigger?(Input::F7)
       pbDebugF7
+    end
+    if trigger?(Input::ALT)
+      pbTurbo()
     end
   end
 end

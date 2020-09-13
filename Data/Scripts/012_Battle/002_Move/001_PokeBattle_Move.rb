@@ -45,6 +45,14 @@ class PokeBattle_Move
     @snatched   = false
   end
 
+  def basedamage
+    return @baseDamage
+  end
+
+  def type
+    return @type
+  end
+
   # This is the code actually used to generate a PokeBattle_Move object. The
   # object generated is a subclass of this one which depends on the move's
   # function code (found in the script section PokeBattle_MoveEffect).
