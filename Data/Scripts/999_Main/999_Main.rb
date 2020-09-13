@@ -1,4 +1,4 @@
-pbCompiler
+pbCompiler if Kernel.pbConfirmMessageSerious("Do you want to recompile?")
 
 
 

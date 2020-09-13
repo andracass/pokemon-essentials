@@ -1180,7 +1180,7 @@ def pbCompileAllData(mustCompile)
 end
 
 def pbCompiler
-  return if !$DEBUG
+  return if !$DEBUG 
   begin
     dataFiles = [
        "berry_plants.dat",
